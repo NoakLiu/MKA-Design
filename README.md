@@ -38,23 +38,23 @@ Q_i = XW_i^Q, \quad K_g = XW_g^K, \quad V_g = XW_g^V
 
 where \(g\) represents the group index, and \(i\) belongs to group \(g\). This provides a balance between MHA and MQA.
 
-### MLA (Multi-Layer Attention)
-Multi-layer attention applies attention mechanisms in a hierarchical manner:
+### MLA (Multi-Latent Attention)
+Multi-latent attention introduces a latent space for attention computation, allowing for more flexible and efficient attention patterns:
 
 \[
-A^{(l)} = \text{Attention}(Q^{(l)}, K^{(l)}, V^{(l)})
+Z = \text{MLP}(X)
 \]
 \[
-H^{(l)} = \text{LayerNorm}(H^{(l-1)} + A^{(l)})
+Q = ZW^Q, \quad K = ZW^K, \quad V = ZW^V
 \]
 \[
-F^{(l)} = \text{FFN}(H^{(l)})
+A = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})
 \]
 \[
-H^{(l+1)} = \text{LayerNorm}(H^{(l)} + F^{(l)})
+\text{Attention}(X) = \text{LayerNorm}(X + AV)
 \]
 
-where \(l\) represents the layer index, and each layer has its own attention mechanism and feed-forward network (FFN). This hierarchical structure allows for more complex feature extraction and better handling of long-range dependencies.
+where \(Z\) is the latent representation learned by the MLP, and \(W^Q, W^K, W^V\) are shared projection matrices. This approach reduces the computational complexity while maintaining the ability to capture complex attention patterns through the learned latent space.
 
 ### MKA (Memorized Key Attention)
 Memorized key attention introduces a memory-based key routing mechanism:

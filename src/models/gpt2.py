@@ -4,7 +4,7 @@ from ..attention.mha import MultiHeadAttention
 from ..attention.mka import MKAForGPT2Attention
 from ..attention.mqa import MultiQueryAttention
 from ..attention.gqa import GroupedQueryAttention
-from ..attention.mla import MultiLayerAttention
+from ..attention.mla import MultiLatentAttention
 
 def get_model(attn_type="mha", **kwargs):
     config = GPT2Config.from_pretrained("gpt2")
@@ -28,10 +28,9 @@ def get_model(attn_type="mha", **kwargs):
         for block in model.transformer.h:
             block.attn = GroupedQueryAttention(config, num_groups=num_groups)
     elif attn_type == "mla":
-        num_layers = kwargs.get("num_layers", 2)
-        print(f"Using Multi-Layer Attention with {num_layers} layers")
+        print("Using Multi-Latent Attention")
         for block in model.transformer.h:
-            block.attn = MultiLayerAttention(config, num_layers=num_layers)
+            block.attn = MultiLatentAttention(config)
     else:
         raise ValueError(f"Unknown attention type: {attn_type}")
     

@@ -4,7 +4,7 @@ from src.attention.mha import MultiHeadAttention
 from src.attention.mka import MKAForGPT2Attention
 from src.attention.mqa import MultiQueryAttention
 from src.attention.gqa import GroupedQueryAttention
-from src.attention.mla import MultiLayerAttention
+from src.attention.mla import MultiLatentAttention
 from transformers import GPT2Config
 
 @pytest.fixture
@@ -51,7 +51,7 @@ def test_gqa_forward(config, sample_input):
     assert output[0].shape == sample_input.shape
 
 def test_mla_forward(config, sample_input):
-    mla = MultiLayerAttention(config, num_layers=2)
+    mla = MultiLatentAttention(config)
     output = mla(sample_input)
     assert isinstance(output, tuple)
     assert len(output) == 2  # output, present
@@ -63,7 +63,7 @@ def test_attention_mask(config, sample_input):
         MKAForGPT2Attention(config),
         MultiQueryAttention(config),
         GroupedQueryAttention(config),
-        MultiLayerAttention(config)
+        MultiLatentAttention(config)
     ]
     
     attention_mask = torch.ones(sample_input.shape[0], sample_input.shape[1])
@@ -79,7 +79,7 @@ def test_past_key_values(config, sample_input):
         MKAForGPT2Attention(config),
         MultiQueryAttention(config),
         GroupedQueryAttention(config),
-        MultiLayerAttention(config)
+        MultiLatentAttention(config)
     ]
     
     past_key_values = (

@@ -20,8 +20,6 @@ def parse_args():
                       help='Learning rate for training')
     parser.add_argument('--num_groups', type=int, default=4,
                       help='Number of groups for GQA')
-    parser.add_argument('--num_layers', type=int, default=2,
-                      help='Number of layers for MLA')
     parser.add_argument('--fp16', action='store_true',
                       help='Use mixed precision training')
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
@@ -38,7 +36,6 @@ def run_benchmark(
     epochs=1,
     learning_rate=5e-5,
     num_groups=4,
-    num_layers=2,
     fp16=False,
     gradient_accumulation_steps=1,
     distributed=False
@@ -64,8 +61,7 @@ def run_benchmark(
         # Initialize model with specific parameters
         model = get_model(
             attn_type,
-            num_groups=num_groups,
-            num_layers=num_layers
+            num_groups=num_groups
         )
         device = torch.device(f"cuda:{gpu}" if torch.cuda.is_available() else "cpu")
         model.to(device)
@@ -137,7 +133,6 @@ if __name__ == "__main__":
         epochs=args.epochs,
         learning_rate=args.learning_rate,
         num_groups=args.num_groups,
-        num_layers=args.num_layers,
         fp16=args.fp16,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         distributed=distributed

@@ -33,7 +33,7 @@ def test_get_model_gqa(config):
     assert isinstance(model, torch.nn.Module)
 
 def test_get_model_mla(config):
-    model = get_model("mla", num_layers=2)
+    model = get_model("mla")
     assert model is not None
     assert isinstance(model, torch.nn.Module)
 
