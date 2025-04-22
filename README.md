@@ -8,66 +8,71 @@ MKA (Memorized Key Attention) is an efficient attention mechanism designed to im
 ### MHA (Multi-Head Attention)
 The traditional multi-head attention mechanism computes attention scores for each head independently:
 
-\[
+$$
 \text{Attention}(Q, K, V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V
-\]
+$$
 
 where \(Q, K, V\) are the query, key, and value matrices for each head, and \(d_k\) is the dimension of the key vectors. Each head has its own set of projection matrices:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K_i = XW_i^K, \quad V_i = XW_i^V
-\]
+$$
 
 where \(X\) is the input sequence and \(W_i^Q, W_i^K, W_i^V\) are learnable projection matrices for head \(i\).
 
 ### MQA (Multi-Query Attention)
 Multi-query attention shares key and value projections across all heads while maintaining separate query projections:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K = XW^K, \quad V = XW^V
-\]
+$$
 
 This reduces memory usage while maintaining reasonable performance.
 
 ### GQA (Grouped-Query Attention)
 Grouped-query attention divides heads into groups and shares key-value projections within each group:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K_g = XW_g^K, \quad V_g = XW_g^V
-\]
+$$
 
 where \(g\) represents the group index, and \(i\) belongs to group \(g\). This provides a balance between MHA and MQA.
 
 ### MLA (Multi-Latent Attention)
 Multi-latent attention introduces a latent space for attention computation, allowing for more flexible and efficient attention patterns:
 
-\[
+$$
 Z = \text{MLP}(X)
-\]
-\[
+$$
+
+$$
 Q = ZW^Q, \quad K = ZW^K, \quad V = ZW^V
-\]
-\[
+$$
+
+$$
 A = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})
-\]
-\[
+$$
+
+$$
 \text{Attention}(X) = \text{LayerNorm}(X + AV)
-\]
+$$
 
 where \(Z\) is the latent representation learned by the MLP, and \(W^Q, W^K, W^V\) are shared projection matrices. This approach reduces the computational complexity while maintaining the ability to capture complex attention patterns through the learned latent space.
 
 ### MKA (Memorized Key Attention)
 Memorized key attention introduces a memory-based key routing mechanism:
 
-\[
+$$
 \lambda = \text{softmax}(\text{MLP}(X))
-\]
-\[
+$$
+
+$$
 K_{\text{mem}} = \sum_{i=1}^{3} \lambda_i K_i
-\]
-\[
+$$
+
+$$
 \text{Attention}(Q, K_{\text{mem}}, V) = \text{softmax}(\frac{QK_{\text{mem}}^T}{\sqrt{d_k}})V
-\]
+$$
 
 where \(\lambda\) represents the routing weights learned by the MLP, and \(K_i\) are different memory sources. This adaptive key selection improves efficiency while maintaining or improving performance.
 
