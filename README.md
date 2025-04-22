@@ -6,35 +6,70 @@ MKA (Memorized Key Attention) is an efficient attention mechanism designed to im
 ## Attention Mechanisms Comparison
 
 ### MHA (Multi-Head Attention)
-- Traditional attention mechanism used in original transformers
-- Each head has its own Q, K, V projections
-- High memory usage and computational cost
-- Best for tasks requiring high precision
+The traditional multi-head attention mechanism computes attention scores for each head independently:
+
+\[
+\text{Attention}(Q, K, V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V
+\]
+
+where \(Q, K, V\) are the query, key, and value matrices for each head, and \(d_k\) is the dimension of the key vectors. Each head has its own set of projection matrices:
+
+\[
+Q_i = XW_i^Q, \quad K_i = XW_i^K, \quad V_i = XW_i^V
+\]
+
+where \(X\) is the input sequence and \(W_i^Q, W_i^K, W_i^V\) are learnable projection matrices for head \(i\).
 
 ### MQA (Multi-Query Attention)
-- Shares K and V projections across all heads
-- Reduces memory usage significantly
-- Slightly lower performance than MHA
-- Good balance between performance and efficiency
+Multi-query attention shares key and value projections across all heads while maintaining separate query projections:
+
+\[
+Q_i = XW_i^Q, \quad K = XW^K, \quad V = XW^V
+\]
+
+This reduces memory usage while maintaining reasonable performance.
 
 ### GQA (Grouped-Query Attention)
-- Groups heads and shares K, V projections within groups
-- Better performance than MQA
-- More flexible than MQA
-- Good for large models
+Grouped-query attention divides heads into groups and shares key-value projections within each group:
+
+\[
+Q_i = XW_i^Q, \quad K_g = XW_g^K, \quad V_g = XW_g^V
+\]
+
+where \(g\) represents the group index, and \(i\) belongs to group \(g\). This provides a balance between MHA and MQA.
 
 ### MLA (Multi-Layer Attention)
-- Uses multiple attention layers
-- Higher computational cost
-- Better for complex tasks
-- Not commonly used due to efficiency concerns
+Multi-layer attention applies attention mechanisms in a hierarchical manner:
+
+\[
+A^{(l)} = \text{Attention}(Q^{(l)}, K^{(l)}, V^{(l)})
+\]
+\[
+H^{(l)} = \text{LayerNorm}(H^{(l-1)} + A^{(l)})
+\]
+\[
+F^{(l)} = \text{FFN}(H^{(l)})
+\]
+\[
+H^{(l+1)} = \text{LayerNorm}(H^{(l)} + F^{(l)})
+\]
+
+where \(l\) represents the layer index, and each layer has its own attention mechanism and feed-forward network (FFN). This hierarchical structure allows for more complex feature extraction and better handling of long-range dependencies.
 
 ### MKA (Memorized Key Attention)
-- Introduces memory-based key routing
-- Adaptive key selection based on input
-- Better efficiency than MHA
-- Maintains or improves performance
-- Particularly effective for long sequences
+Memorized key attention introduces a memory-based key routing mechanism:
+
+\[
+\lambda = \text{softmax}(\text{MLP}(X))
+\]
+\[
+K_{\text{mem}} = \sum_{i=1}^{3} \lambda_i K_i
+\]
+\[
+\text{Attention}(Q, K_{\text{mem}}, V) = \text{softmax}(\frac{QK_{\text{mem}}^T}{\sqrt{d_k}})V
+\]
+
+where \(\lambda\) represents the routing weights learned by the MLP, and \(K_i\) are different memory sources. This adaptive key selection improves efficiency while maintaining or improving performance.
 
 ## Project Structure
 ```
