@@ -10,15 +10,17 @@ class MKAForGPT2Attention(nn.Module):
         self.head_dim = self.embed_dim // self.num_heads
         self.scale = self.head_dim ** -0.5
 
+        # Projection matrices
         self.q_proj = nn.Linear(self.embed_dim, self.embed_dim)
         self.k_proj = nn.Linear(self.embed_dim, self.embed_dim)
         self.v_proj = nn.Linear(self.embed_dim, self.embed_dim)
         self.out_proj = nn.Linear(self.embed_dim, self.embed_dim)
 
+        # Routing MLP for memory selection
         self.routing_mlp = nn.Sequential(
             nn.Linear(self.embed_dim, self.embed_dim),
             nn.Tanh(),
-            nn.Linear(self.embed_dim, 3)  # 3 memory sources: L1, L2, L3
+            nn.Linear(self.embed_dim, 3)  # 3 memory levels
         )
 
     def forward(
@@ -27,35 +29,61 @@ class MKAForGPT2Attention(nn.Module):
     ):
         B, T, C = hidden_states.size()
 
+        # Project queries
         query = self.q_proj(hidden_states)
-        key = self.k_proj(hidden_states)
-        value = self.v_proj(hidden_states)
-
         query = query.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
-        key = key.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
-        value = value.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
 
-        if layer_past is not None:
-            past_key, past_value = layer_past
-            key = torch.cat((past_key, key), dim=-2)
-            value = torch.cat((past_value, value), dim=-2)
+        # Define memory levels
+        # L1: Local memory (current tokens)
+        L1 = hidden_states
+        
+        # L2: Session memory (summary)
+        L2 = hidden_states.mean(dim=1, keepdim=True).expand(-1, T, -1)
+        
+        # L3: Long-term memory (initialized as zeros)
+        L3 = torch.zeros_like(hidden_states)
 
-        present = (key, value) if use_cache else None
+        # Compute routing weights
+        routing_logits = self.routing_mlp(hidden_states)  # (B, T, 3)
+        routing_weights = F.softmax(routing_logits, dim=-1)  # (B, T, 3)
 
-        # routing weights
-        gate_logits = self.routing_mlp(hidden_states)
-        lambdas = F.softmax(gate_logits, dim=-1)  # (B, T, 3)
+        # Initialize attention outputs
+        attn_output = torch.zeros_like(hidden_states)
 
-        # Scaled Dot-Product Attention
-        attn_weights = torch.matmul(query, key.transpose(-1, -2)) * self.scale
+        # Process each memory level
+        for i, memory in enumerate([L1, L2, L3]):
+            # Project keys and values
+            key = self.k_proj(memory)
+            value = self.v_proj(memory)
+            
+            # Reshape for multi-head attention
+            key = key.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+            value = value.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
 
-        if attention_mask is not None:
-            attn_weights = attn_weights + attention_mask
+            # Compute attention scores
+            attn_weights = torch.matmul(query, key.transpose(-1, -2)) * self.scale
 
-        attn_probs = nn.Softmax(dim=-1)(attn_weights)
-        attn_output = torch.matmul(attn_probs, value)
-        attn_output = attn_output.transpose(1, 2).contiguous().view(B, T, C)
-        attn_output = self.out_proj(attn_output)
+            if attention_mask is not None:
+                attn_weights = attn_weights + attention_mask
+
+            attn_probs = F.softmax(attn_weights, dim=-1)
+            
+            # Apply routing weights
+            level_weight = routing_weights[..., i].unsqueeze(-1).unsqueeze(-1)
+            level_output = torch.matmul(attn_probs, value)
+            level_output = level_output.transpose(1, 2).contiguous().view(B, T, C)
+            level_output = self.out_proj(level_output)
+            
+            attn_output += level_weight * level_output
+
+        # Update KV cache if needed
+        present = None
+        if use_cache:
+            key = self.k_proj(hidden_states)
+            value = self.v_proj(hidden_states)
+            key = key.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+            value = value.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+            present = (key, value)
 
         outputs = (attn_output, present)
         if output_attentions:
