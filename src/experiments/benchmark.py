@@ -22,7 +22,7 @@ def parse_args():
                       help='Number of groups for GQA')
     parser.add_argument('--fp16', action='store_true',
                       help='Use mixed precision training')
-    parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
+    parser.add_argument('--gradient_accumulation_steps', type=int, default=4,
                       help='Number of gradient accumulation steps')
     parser.add_argument('--deepspeed', action='store_true',
                       help='Use DeepSpeed for training')
@@ -37,7 +37,7 @@ def run_benchmark(
     learning_rate=5e-5,
     num_groups=4,
     fp16=False,
-    gradient_accumulation_steps=1,
+    gradient_accumulation_steps=4,
     distributed=False
 ):
     if distributed:

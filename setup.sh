@@ -4,11 +4,14 @@
 conda create -n mka python=3.10 -y
 conda activate mka
 
-# Install PyTorch and torchvision with specific versions
+# Install PyTorch with CUDA support
 conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia -y
 
-# Install CUDA toolkit
-conda install -c nvidia cuda-toolkit=11.8 -y
+# Install CUDA dependencies
+conda install -c conda-forge cudatoolkit=11.8 cudnn=8.9 -y
+
+# Install system dependencies for image processing
+conda install -c conda-forge libjpeg-turbo libpng -y
 
 # Install other dependencies (fix command syntax)
 pip install "transformers>=4.30.0"
@@ -34,6 +37,11 @@ pip install -e .
 
 # Add PYTHONPATH to environment
 echo 'export PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc
+source ~/.bashrc
+
+# Add CUDA paths to environment
+echo 'export PATH=$CONDA_PREFIX/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
 source ~/.bashrc
 
 echo "MKA environment setup complete!"
