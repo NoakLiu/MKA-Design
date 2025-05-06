@@ -26,7 +26,7 @@ def evaluate_model(model, data_loader, distributed=False):
         "perplexity": perplexity
     }
 
-def train_model(model, data_loader, epochs=1, learning_rate=5e-5, distributed=False):
+def train_model(model, data_loader, epochs=1, learning_rate=5e-5, distributed=False, gradient_accumulation_steps=1):
     if distributed:
         model = wrap_model(model)
     
@@ -39,7 +39,9 @@ def train_model(model, data_loader, epochs=1, learning_rate=5e-5, distributed=Fa
             data_loader.sampler.set_epoch(epoch)
             
         total_loss = 0
-        for batch in tqdm(data_loader, desc=f"Epoch {epoch}"):
+        optimizer.zero_grad()  # Reset gradients at the start of epoch
+        
+        for i, batch in enumerate(tqdm(data_loader, desc=f"Epoch {epoch}")):
             input_ids = batch['input_ids'].to(device)
             outputs = model(input_ids, labels=input_ids)
             loss = outputs.loss
@@ -47,11 +49,16 @@ def train_model(model, data_loader, epochs=1, learning_rate=5e-5, distributed=Fa
             if distributed:
                 loss = reduce_tensor(loss, torch.distributed.get_world_size())
             
+            # Normalize loss by gradient accumulation steps
+            loss = loss / gradient_accumulation_steps
             loss.backward()
-            optimizer.step()
-            optimizer.zero_grad()
             
-            total_loss += loss.item()
+            # Update weights if we've accumulated enough gradients
+            if (i + 1) % gradient_accumulation_steps == 0:
+                optimizer.step()
+                optimizer.zero_grad()
+            
+            total_loss += loss.item() * gradient_accumulation_steps
         
         avg_loss = total_loss / len(data_loader)
         if not distributed or torch.distributed.get_rank() == 0:
