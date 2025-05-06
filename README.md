@@ -3,113 +3,32 @@
 ## Overview
 MKA (Memorized Key Attention) is an efficient attention mechanism designed to improve the performance of transformer-based models. This project implements and compares different attention mechanisms including MHA (Multi-Head Attention), MLA (Multi-Query Attention), MQA (Multi-Query Attention), GQA (Grouped-Query Attention), and our proposed MKA.
 
-## Attention Mechanisms Comparison
+## Environment Setup
 
-### MHA (Multi-Head Attention)
-The traditional multi-head attention mechanism computes attention scores for each head independently:
+### Prerequisites
+- CUDA-capable GPU (NVIDIA)
+- Conda package manager
+- Python 3.10
 
-$$
-\text{Attention}(Q, K, V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V
-$$
-
-where \(Q, K, V\) are the query, key, and value matrices for each head, and \(d_k\) is the dimension of the key vectors. Each head has its own set of projection matrices:
-
-$$
-Q_i = XW_i^Q, \quad K_i = XW_i^K, \quad V_i = XW_i^V
-$$
-
-where \(X\) is the input sequence and \(W_i^Q, W_i^K, W_i^V\) are learnable projection matrices for head \(i\).
-
-### MQA (Multi-Query Attention)
-Multi-query attention shares key and value projections across all heads while maintaining separate query projections:
-
-$$
-Q_i = XW_i^Q, \quad K = XW^K, \quad V = XW^V
-$$
-
-This reduces memory usage while maintaining reasonable performance.
-
-### GQA (Grouped-Query Attention)
-Grouped-query attention divides heads into groups and shares key-value projections within each group:
-
-$$
-Q_i = XW_i^Q, \quad K_g = XW_g^K, \quad V_g = XW_g^V
-$$
-
-where \(g\) represents the group index, and \(i\) belongs to group \(g\). This provides a balance between MHA and MQA.
-
-### MLA (Multi-Latent Attention)
-Multi-latent attention introduces a latent space for attention computation, allowing for more flexible and efficient attention patterns:
-
-$$
-Z = \text{MLP}(X)
-$$
-
-$$
-Q = ZW^Q, \quad K = ZW^K, \quad V = ZW^V
-$$
-
-$$
-A = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})
-$$
-
-$$
-\text{Attention}(X) = \text{LayerNorm}(X + AV)
-$$
-
-where \(Z\) is the latent representation learned by the MLP, and \(W^Q, W^K, W^V\) are shared projection matrices. This approach reduces the computational complexity while maintaining the ability to capture complex attention patterns through the learned latent space.
-
-### MKA (Memorized Key Attention)
-Memorized key attention introduces a memory-based key routing mechanism:
-
-$$
-\lambda = \text{softmax}(\text{MLP}(X))
-$$
-
-$$
-K_{\text{mem}} = \sum_{i=1}^{3} \lambda_i K_i
-$$
-
-$$
-\text{Attention}(Q, K_{\text{mem}}, V) = \text{softmax}(\frac{QK_{\text{mem}}^T}{\sqrt{d_k}})V
-$$
-
-where \(\lambda\) represents the routing weights learned by the MLP, and \(K_i\) are different memory sources. This adaptive key selection improves efficiency while maintaining or improving performance.
-
-## Project Structure
-```
-mka-design/
-├── src/
-│   ├── attention/
-│   │   ├── mha.py
-│   │   ├── mka.py
-│   │   ├── mqa.py
-│   │   ├── gqa.py
-│   │   └── mla.py
-│   ├── models/
-│   │   └── gpt2.py
-│   ├── utils/
-│   │   ├── data.py
-│   │   ├── metrics.py
-│   │   └── distributed.py
-│   └── experiments/
-│       └── benchmark.py
-├── tests/
-│   ├── test_attention.py
-│   ├── test_model.py
-│   ├── test_distributed.py
-│   └── test_benchmark.py
-├── pytest.ini
-├── requirements.txt
-└── README.md
-```
-
-## Installation
+### Installation
+1. Clone the repository:
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/yourusername/MKA-Design.git
+cd MKA-Design
 ```
 
-## Training Scripts
+2. Run the setup script:
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+3. Activate the environment:
+```bash
+conda activate mka
+```
+
+## Running Experiments
 
 ### Single GPU Training
 ```bash
@@ -186,53 +105,45 @@ deepspeed src/experiments/benchmark.py \
     --deepspeed_config ds_config.json
 ```
 
-## Usage Examples
-
-### Basic Usage
-```python
-from src import get_model, run_benchmark
-
-# Get a model with specific attention mechanism
-model = get_model("mka")
-
-# Run benchmark comparison
-results = run_benchmark()
+## Project Structure
 ```
-
-### Custom Training
-```python
-from src import get_model, run_benchmark
-from src.utils.data import get_dataloader
-from src.utils.metrics import train_model, evaluate_model
-
-# Get model and data
-model = get_model("mka")
-data_loader = get_dataloader(batch_size=8)
-
-# Custom training loop
-train_model(model, data_loader, epochs=3, learning_rate=1e-4)
-
-# Evaluation
-metrics = evaluate_model(model, data_loader)
-print(f"Perplexity: {metrics['perplexity']:.2f}")
-```
-
-### Distributed Training
-```python
-from src import get_model, run_benchmark
-
-# Run distributed training
-results = run_benchmark(distributed=True)
+mka-design/
+├── src/
+│   ├── attention/
+│   │   ├── mha.py
+│   │   ├── mka.py
+│   │   ├── mqa.py
+│   │   ├── gqa.py
+│   │   └── mla.py
+│   ├── models/
+│   │   └── gpt2.py
+│   ├── utils/
+│   │   ├── data.py
+│   │   ├── metrics.py
+│   │   └── distributed.py
+│   └── experiments/
+│       └── benchmark.py
+├── tests/
+│   ├── test_attention.py
+│   ├── test_model.py
+│   ├── test_distributed.py
+│   └── test_benchmark.py
+├── setup.sh
+├── pytest.ini
+├── requirements.txt
+└── README.md
 ```
 
 ## Requirements
-- Python 3.8+
-- PyTorch
-- Transformers
-- Datasets
-- Tqdm
-- Accelerate (for distributed training)
-- DeepSpeed (optional, for advanced distributed training)
+- Python 3.10+
+- PyTorch 2.2.1+ with CUDA support
+- Transformers 4.30.0+
+- Datasets 2.12.0+
+- Tqdm 4.65.0+
+- NumPy < 2.0.0
+- Pytest 7.3.1+
+- Accelerate 0.20.0+ (for distributed training)
+- DeepSpeed 0.9.0+ (optional, for advanced distributed training)
 
 ## License
 MIT License
