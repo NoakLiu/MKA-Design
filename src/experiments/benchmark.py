@@ -3,10 +3,10 @@ import time
 import os
 import argparse
 from tqdm import tqdm
-from ..models.gpt2 import get_model
-from ..utils.data import get_dataloader
-from ..utils.metrics import evaluate_model, train_model
-from ..utils.distributed import setup_distributed, cleanup_distributed
+from src.models.gpt2 import get_model
+from src.utils.data import get_dataloader
+from src.utils.metrics import evaluate_model, train_model
+from src.utils.distributed import setup_distributed, cleanup_distributed
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Run attention mechanism benchmarks')

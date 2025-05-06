@@ -2,7 +2,7 @@ import os
 import torch
 from datasets import load_dataset
 from transformers import GPT2Tokenizer
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, DistributedSampler
 
 CACHE_DIR = "./.cache/wikitext2"
 ENCODED_PATH = os.path.join(CACHE_DIR, "encoded_wikitext.pt")
@@ -15,7 +15,7 @@ def get_tokenizer():
 def encode(example, tokenizer):
     return tokenizer(example['text'], truncation=True, padding='max_length', max_length=512)
 
-def get_dataloader(batch_size=4):
+def get_dataloader(batch_size=4, distributed=False):
     os.makedirs(CACHE_DIR, exist_ok=True)
     tokenizer = get_tokenizer()
 
@@ -32,4 +32,8 @@ def get_dataloader(batch_size=4):
         encoded_dataset.set_format(type='torch', columns=['input_ids'])
         torch.save(encoded_dataset, ENCODED_PATH)
 
-    return DataLoader(encoded_dataset, batch_size=batch_size, shuffle=True) 
+    if distributed:
+        sampler = DistributedSampler(encoded_dataset)
+        return DataLoader(encoded_dataset, batch_size=batch_size, sampler=sampler)
+    else:
+        return DataLoader(encoded_dataset, batch_size=batch_size, shuffle=True) 
