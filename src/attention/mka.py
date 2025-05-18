@@ -51,7 +51,8 @@ class MKAForGPT2Attention(nn.Module):
         attn_output = torch.zeros_like(hidden_states)
 
         # Process each memory level
-        for i, memory in enumerate([L1, L2, L3]):
+        memories = [L1, L2, L3]
+        for i, memory in enumerate(memories):
             # Project keys and values
             key = self.k_proj(memory)
             value = self.v_proj(memory)
@@ -68,13 +69,14 @@ class MKAForGPT2Attention(nn.Module):
 
             attn_probs = F.softmax(attn_weights, dim=-1)
             
-            # Apply routing weights
-            level_weight = routing_weights[..., i].unsqueeze(-1).unsqueeze(-1)
-            level_output = torch.matmul(attn_probs, value)
-            level_output = level_output.transpose(1, 2).contiguous().view(B, T, C)
-            level_output = self.out_proj(level_output)
+            # Apply routing weights - need to reshape for proper broadcasting
+            mem_output = torch.matmul(attn_probs, value)
+            mem_output = mem_output.transpose(1, 2).contiguous().view(B, T, C)
+            mem_output = self.out_proj(mem_output)
             
-            attn_output += level_weight * level_output
+            # Use proper broadcasting for the routing weights
+            level_weight = routing_weights[:, :, i].unsqueeze(-1)  # (B, T, 1)
+            attn_output = attn_output + level_weight * mem_output
 
         # Update KV cache if needed
         present = None

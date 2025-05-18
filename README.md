@@ -42,6 +42,23 @@ echo 'export PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc
 source ~/.bashrc
 ```
 
+For numpy issue (<=2.00) often met after setup.sh then use follows to solve
+```bash
+(mka) root@dsw-238653-84cd4c6f57-5cdq7:/mnt/workspace/MKA-Design# pip uninstall -y numpy
+pip install "numpy<2.0.0"
+Found existing installation: numpy 2.0.1
+Uninstalling numpy-2.0.1:
+  Successfully uninstalled numpy-2.0.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Looking in indexes: https://mirrors.aliyun.com/pypi/simple/
+Collecting numpy<2.0.0
+  Downloading https://mirrors.aliyun.com/pypi/packages/4b/d7/ecf66c1cd12dc28b4040b15ab4d17b773b87fa9d29ca16125de01adb36cd/numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.2/18.2 MB 267.4 kB/s eta 0:00:00
+Installing collected packages: numpy
+Successfully installed numpy-1.26.4
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+```
+
 ### Single GPU Training
 ```bash
 # Basic training with default settings
