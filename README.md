@@ -35,6 +35,13 @@ python -c "import torch; print('CUDA available:', torch.cuda.is_available()); pr
 
 ## Running Experiments
 
+Setup root path before runing the code
+```bash
+# Add PYTHONPATH to environment
+echo 'export PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc
+source ~/.bashrc
+```
+
 ### Single GPU Training
 ```bash
 # Basic training with default settings
