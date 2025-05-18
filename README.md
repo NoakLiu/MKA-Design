@@ -80,7 +80,7 @@ torchrun --nproc_per_node=N src/experiments/benchmark.py
 torchrun --nproc_per_node=4 src/experiments/benchmark.py
 
 # Training with specific attention mechanism
-torchrun --nproc_per_node=N src/experiments/benchmark.py --attention_type mka
+torchrun --nproc_per_node=8 src/experiments/benchmark.py --attention_type mka
 ```
 
 ### Multi-Node Training
@@ -173,6 +173,93 @@ mka-design/
 - Pytest 7.3.1+
 - Accelerate 0.20.0+ (for distributed training)
 - DeepSpeed 0.9.0+ (optional, for advanced distributed training)
+
+## Result
+
+MKA
+```bash
+(mka) root@dsw-238653-84cd4c6f57-5cdq7:/mnt/workspace/MKA-Design# torchrun --nproc_per_node=8 src/experiments/benchmark.py --attention_type mka
+[2025-05-18 22:34:42,582] torch.distributed.run: [WARNING] 
+[2025-05-18 22:34:42,582] torch.distributed.run: [WARNING] *****************************************
+[2025-05-18 22:34:42,582] torch.distributed.run: [WARNING] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+[2025-05-18 22:34:42,582] torch.distributed.run: [WARNING] *****************************************
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+[2025-05-18 22:34:46,400] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-18 22:34:46,429] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-18 22:34:46,440] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-18 22:34:46,474] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-18 22:34:46,508] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-18 22:34:46,521] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-18 22:34:46,525] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-18 22:34:46,527] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+🚀 Running distributed training with 8 GPUs
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+
+🏁 Testing MKA...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Epoch 0:   0%|                                                                                                        | 0/1148 [00:00<?, ?it/s]`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:06<00:00,  4.66it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:06<00:00,  4.66it/s]
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:06<00:00,  4.66it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:06<00:00,  4.66it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:06<00:00,  4.66it/s]
+✅ Epoch 0 Loss: 1.0702
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:06<00:00,  4.66it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:06<00:00,  4.66it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:24<00:00, 13.63it/s]
+
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:24<00:00, 13.63it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:24<00:00, 13.63it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:24<00:00, 13.63it/s]
+
+
+
+📊 Results for MKA:
+  Train Loss: 1.0702
+  Eval Loss: 0.8805
+  Perplexity: 2.41
+  Train Time: 248.44s
+  Eval Time: 84.23s
+  Memory Allocated: 9134.62MB
+  Memory Reserved: 9728.00MB
+```
 
 ## License
 MIT License
