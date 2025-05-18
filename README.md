@@ -28,6 +28,11 @@ chmod +x setup.sh
 conda activate mka
 ```
 
+4. Test cuda environment:
+```bash
+python -c "import torch; print('CUDA available:', torch.cuda.is_available()); print('CUDA version:', torch.version.cuda if torch.cuda.is_available() else 'Not available')"
+```
+
 ## Running Experiments
 
 ### Single GPU Training

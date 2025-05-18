@@ -7,20 +7,18 @@ conda activate mka
 # Install PyTorch with CUDA support
 conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia -y
 
-# Install CUDA dependencies
-conda install -c conda-forge cudatoolkit=11.8 cudnn=8.9 -y
 
 # Install system dependencies for image processing
 conda install -c conda-forge libjpeg-turbo libpng -y
 
 # Install other dependencies (fix command syntax)
-pip install "transformers>=4.30.0"
-pip install "datasets>=2.12.0"
-pip install "tqdm>=4.65.0"
-pip install "numpy<2.0.0"  # Ensure numpy 1.x for compatibility
-pip install "pytest>=7.3.1"
-pip install "accelerate>=0.20.0"
-pip install "deepspeed>=0.9.0"
+pip install transformers>=4.30.0
+pip install datasets>=2.12.0
+pip install tqdm>=4.65.0
+pip install numpy<2.0.0
+pip install pytest>=7.3.1
+pip install accelerate>=0.20.0
+pip install deepspeed>=0.9.0
 
 # Create src directory if it doesn't exist
 mkdir -p src
