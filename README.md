@@ -261,5 +261,230 @@ Evaluating: 100%|█████████████████████
   Memory Reserved: 9728.00MB
 ```
 
+Full experiment
+```bash
+(mka) root@dsw-238653-84cd4c6f57-5cdq7:/mnt/workspace/MKA-Design# torchrun --nproc_per_node=8 src/experiments/benchmark.py
+[2025-05-19 01:14:10,025] torch.distributed.run: [WARNING] 
+[2025-05-19 01:14:10,025] torch.distributed.run: [WARNING] *****************************************
+[2025-05-19 01:14:10,025] torch.distributed.run: [WARNING] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+[2025-05-19 01:14:10,025] torch.distributed.run: [WARNING] *****************************************
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+/root/miniconda3/envs/mka/lib/python3.10/site-packages/_distutils_hack/__init__.py:53: UserWarning: Reliance on distutils from stdlib is deprecated. Users must rely on setuptools to provide the distutils module. Avoid importing distutils or import setuptools first, and avoid setting SETUPTOOLS_USE_DISTUTILS=stdlib. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+[2025-05-19 01:14:13,659] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-19 01:14:13,673] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-19 01:14:13,695] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-19 01:14:13,720] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-19 01:14:13,728] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-19 01:14:13,734] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-19 01:14:13,739] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-19 01:14:13,742] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+🚀 Running distributed training with 8 GPUs
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+🔁 Loading preprocessed dataset from cache...
+
+🏁 Testing MHA...
+Using Multi-Head Attention
+Using Multi-Head Attention
+Using Multi-Head Attention
+Using Multi-Head Attention
+Using Multi-Head Attention
+Using Multi-Head Attention
+Using Multi-Head Attention
+Using Multi-Head Attention
+Epoch 0:   0%|                                                                                                        | 0/1148 [00:00<?, ?it/s]`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+`loss_type=None` was set in the config but it is unrecognised.Using the default loss: `ForCausalLMLoss`.
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:30<00:00,  7.62it/s]
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:30<00:00,  7.62it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:30<00:00,  7.62it/s]
+
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:30<00:00,  7.62it/s]
+✅ Epoch 0 Loss: 1.1422
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:30<00:00,  7.62it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:12<00:00, 15.84it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:12<00:00, 15.84it/s]
+
+
+
+
+
+
+📊 Results for MHA:
+  Train Loss: 1.1422
+  Eval Loss: 0.9334
+  Perplexity: 2.54
+  Train Time: 153.26s
+  Eval Time: 72.46s
+  Memory Allocated: 6763.91MB
+  Memory Reserved: 7380.00MB
+
+🏁 Testing MKA...
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Using Memorized Key Attention
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [13:05<00:00,  1.46it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [13:05<00:00,  5.32it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [13:05<00:00,  1.46it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [13:05<00:00,  1.46it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [13:05<00:00,  5.32it/s]
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [13:05<00:00,  1.46it/s]
+✅ Epoch 0 Loss: 1.0852
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [13:05<00:00,  1.46it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [06:53<00:00,  2.78it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [06:53<00:00,  2.78it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [06:53<00:00,  2.78it/s]
+
+
+
+
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [06:53<00:00,  2.78it/s]
+📊 Results for MKA:
+  Train Loss: 1.0852
+  Eval Loss: 0.8873
+  Perplexity: 2.43
+  Train Time: 785.35s
+  Eval Time: 413.06s
+  Memory Allocated: 9134.67MB
+  Memory Reserved: 9852.00MB
+
+🏁 Testing MQA...
+Using Multi-Query Attention
+Using Multi-Query Attention
+Using Multi-Query Attention
+Using Multi-Query Attention
+Using Multi-Query Attention
+Using Multi-Query Attention
+Using Multi-Query Attention
+Using Multi-Query Attention
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [12:59<00:00,  1.47it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [12:59<00:00,  1.47it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [12:59<00:00,  1.47it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [12:59<00:00,  1.47it/s]
+✅ Epoch 0 Loss: 1.1322
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [12:59<00:00,  1.47it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [12:59<00:00,  1.47it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [12:59<00:00,  1.47it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [04:51<00:00,  3.93it/s]
+
+
+
+
+
+
+
+📊 Results for MQA:
+  Train Loss: 1.1322
+  Eval Loss: 0.9081
+  Perplexity: 2.48
+  Train Time: 779.43s
+  Eval Time: 291.95s
+  Memory Allocated: 9134.67MB
+  Memory Reserved: 9886.00MB
+
+🏁 Testing GQA...
+Using Grouped-Query Attention with 4 groups
+Using Grouped-Query Attention with 4 groups
+Using Grouped-Query Attention with 4 groups
+Using Grouped-Query Attention with 4 groups
+Using Grouped-Query Attention with 4 groups
+Using Grouped-Query Attention with 4 groups
+Using Grouped-Query Attention with 4 groups
+Using Grouped-Query Attention with 4 groups
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:22<00:00,  8.08it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:22<00:00,  8.08it/s]
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:22<00:00,  8.08it/s]
+
+
+✅ Epoch 0 Loss: 1.1557
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:22<00:00,  8.08it/s]
+
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [00:45<00:00, 25.11it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [00:45<00:00, 25.11it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [00:45<00:00, 25.11it/s]
+
+
+
+
+
+📊 Results for GQA:
+  Train Loss: 1.1557
+  Eval Loss: 0.9305
+  Perplexity: 2.54
+  Train Time: 142.09s
+  Eval Time: 45.72s
+  Memory Allocated: 9134.67MB
+  Memory Reserved: 9956.00MB
+
+🏁 Testing MLA...
+Using Multi-Latent Attention
+Using Multi-Latent Attention
+Using Multi-Latent Attention
+Using Multi-Latent Attention
+Using Multi-Latent Attention
+Using Multi-Latent Attention
+Using Multi-Latent Attention
+Using Multi-Latent Attention
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:58<00:00,  6.45it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:58<00:00,  6.45it/s]
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:58<00:00,  6.45it/s]
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:58<00:00,  6.45it/s]
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:58<00:00,  6.45it/s]✅ Epoch 0 Loss: 1.0139
+
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [02:58<00:00,  6.45it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:08<00:00, 16.88it/s]
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:08<00:00, 16.88it/s]
+
+
+
+
+
+Evaluating: 100%|██████████████████████████████████████████████████████████████████████████████████████████| 1148/1148 [01:08<00:00, 16.88it/s]
+📊 Results for MLA:
+  Train Loss: 1.0139
+  Eval Loss: 0.8923
+  Perplexity: 2.44
+  Train Time: 178.19s
+  Eval Time: 68.01s
+  Memory Allocated: 9134.67MB
+  Memory Reserved: 10540.00MB
+```
+
 ## License
 MIT License
