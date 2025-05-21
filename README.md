@@ -134,6 +134,26 @@ deepspeed src/experiments/benchmark.py \
     --deepspeed_config ds_config.json
 ```
 
+### Training with Fast-MKA
+```bash
+# 单GPU测试
+python src/experiments/benchmark.py --attention_type fmka
+
+# 分布式测试（使用所有可用GPU）
+torchrun --nproc_per_node=8 src/experiments/benchmark.py --attention_type fmka
+
+# 开启混合精度加速
+torchrun --nproc_per_node=8 src/experiments/benchmark.py --attention_type fmka --fp16
+```
+
+```bash
+# 单GPU示例
+python examples/fmka_example.py
+
+# 分布式示例
+python examples/distributed_fmka_example.py
+```
+
 ## Project Structure
 ```
 mka-design/
