@@ -5,6 +5,7 @@ from ..attention.mka import MKAForGPT2Attention
 from ..attention.mqa import MultiQueryAttention
 from ..attention.gqa import GroupedQueryAttention
 from ..attention.mla import MultiLatentAttention
+from ..attention.fmka import FastMKA
 
 def get_model(attn_type="mha", **kwargs):
     config = GPT2Config.from_pretrained("gpt2")
@@ -31,6 +32,10 @@ def get_model(attn_type="mha", **kwargs):
         print("Using Multi-Latent Attention")
         for block in model.transformer.h:
             block.attn = MultiLatentAttention(config)
+    elif attn_type == "fmka":
+        print("Using Fast Memorized Key Attention")
+        for block in model.transformer.h:
+            block.attn = FastMKA(config)
     else:
         raise ValueError(f"Unknown attention type: {attn_type}")
     

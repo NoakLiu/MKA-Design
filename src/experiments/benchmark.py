@@ -11,7 +11,7 @@ from src.utils.distributed import setup_distributed, cleanup_distributed
 def parse_args():
     parser = argparse.ArgumentParser(description='Run attention mechanism benchmarks')
     parser.add_argument('--attention_type', type=str, default=None,
-                      help='Specific attention mechanism to test (mha, mka, mqa, gqa, mla)')
+                      help='Specific attention mechanism to test (mha, mka, mqa, gqa, mla, fmka)')
     parser.add_argument('--batch_size', type=int, default=4,
                       help='Batch size for training')
     parser.add_argument('--epochs', type=int, default=1,
@@ -31,7 +31,7 @@ def parse_args():
     return parser.parse_args()
 
 def run_benchmark(
-    attention_types=["mha", "mka", "mqa", "gqa", "mla"],
+    attention_types=["mha", "mka", "mqa", "gqa", "mla", "fmka"],
     batch_size=4,
     epochs=1,
     learning_rate=5e-5,
@@ -52,7 +52,7 @@ def run_benchmark(
     
     # If specific attention type is provided, only test that one
     if attention_types is None:
-        attention_types = ["mha", "mka", "mqa", "gqa", "mla"]
+        attention_types = ["mha", "mka", "mqa", "gqa", "mla", "fmka"]
     
     for attn_type in attention_types:
         if rank == 0:
